@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.24;
 
 import "./ERC721.sol";
 import "./Ownable.sol";
@@ -53,7 +53,7 @@ contract TokenDistribution is ERC721, Ownable {
         tokenToOwner[tokenId] = _to;
         ownerTokenCount[_to] = ownerTokenCount[_to].add(1);
         
-        NewToken(_to, tokenId, _message);
+        emit NewToken(_to, tokenId, _message);
     }
     
     /**
@@ -72,7 +72,7 @@ contract TokenDistribution is ERC721, Ownable {
         tokenToOwner[_tokenId] = address(0);
         ownerTokenCount[owner] = ownerTokenCount[owner].sub(1);
         
-        BurnToken(_tokenId);
+        emit BurnToken(_tokenId);
     }
     
     /**
@@ -83,10 +83,10 @@ contract TokenDistribution is ERC721, Ownable {
         uint[] memory tokens = new uint[](ownerTokenCount[_owner]);
         uint counter = 0;
         for (uint i = 0; i < allTokens.length; i++) {
-          if (tokenToOwner[i] == _owner) {
-              tokens[counter] = i;
-              counter++;
-          }
+            if (tokenToOwner[i] == _owner) {
+                tokens[counter] = i;
+                counter++;
+            }
         }
         return tokens;
     }
@@ -113,7 +113,7 @@ contract TokenDistribution is ERC721, Ownable {
      * of this contract are not transferable.
      */
     function transfer(address _to, uint256 _tokenId) public {
-        NotTransferable("The tokens are not transferable!");
+        emit NotTransferable("The tokens are not transferable!");
     }
     
     /**
@@ -121,7 +121,7 @@ contract TokenDistribution is ERC721, Ownable {
      * of this contract are not transferable.
      */
     function approve(address _to, uint256 _tokenId) public {
-        NotTransferable("The tokens are not transferable!");
+        emit NotTransferable("The tokens are not transferable!");
     }
     
     /**
@@ -129,7 +129,7 @@ contract TokenDistribution is ERC721, Ownable {
      * of this contract are not transferable.
      */
     function takeOwnership(uint256 _tokenId) public {
-        NotTransferable("The tokens are not transferable!");
+        emit NotTransferable("The tokens are not transferable!");
     }
     
 }
